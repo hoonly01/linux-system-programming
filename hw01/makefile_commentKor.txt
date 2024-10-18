@@ -1,0 +1,32 @@
+edit : main.o kbd.o command.o display.o \	# edit 실행 파일을 만들기 위해 main.o kbd.o command.o display.o 파일들의 의존성 검사
+       insert.o search.o files.o utils.o	# 의존성 검사할 오브젝트 파일들의 추가 나열
+        cc -o edit main.o kbd.o command.o display.o \	# edit 실행 파일을 main.o kbd.o command.o display.o 파일들과 링크해서 생성
+                   insert.o search.o files.o utils.o	# 링크할 오브젝트 파일들의 추가 나열
+
+main.o : main.c defs.h  # main.o는 main.c와 defs.h dependency 검사
+        cc -c main.c    # main.c를 컴파일해 main.o 오브젝트 파일 생성
+
+kbd.o : kbd.c defs.h command.h  # kbd.o는 kbd.c, defs.h, command.h가 있어야 함 (dependency check)
+        cc -c kbd.c              # kbd.c를 컴파일해 kbd.o 오브젝트 파일 생성
+
+command.o : command.c defs.h command.h  # command.o는 command.c, defs.h, command.h 파일의 의존성 검사
+        cc -c command.c                 # command.c를 컴파일해 command.o 오브젝트 파일 생성
+
+display.o : display.c defs.h buffer.h   # display.o는 display.c, defs.h, buffer.h 파일의 의존성 검사
+        cc -c display.c                 # display.c를 컴파일해 display.o 오브젝트 파일 생성
+
+insert.o : insert.c defs.h buffer.h     # insert.o는 insert.c, defs.h, buffer.h 파일의 의존성 검사
+        cc -c insert.c                  # insert.c를 컴파일해 insert.o 오브젝트 파일 생성
+
+search.o : search.c defs.h buffer.h     # search.o는 search.c, defs.h, buffer.h 파일의 의존성 검사
+        cc -c search.c                  # search.c를 컴파일해 search.o 오브젝트 파일 생성
+
+files.o : files.c defs.h buffer.h command.h   # files.o는 files.c, defs.h, buffer.h, command.h 파일의 의존성 검사
+        cc -c files.c                         # files.c를 컴파일해 files.o 오브젝트 파일 생성
+
+utils.o : utils.c defs.h            # utils.o는 utils.c와 defs.h 파일의 의존성 검사
+        cc -c utils.c               # utils.c를 컴파일해 utils.o 오브젝트 파일 생성
+
+clean :                             # clean이라는 타겟을 정의, 파일을 삭제하는 규칙
+        rm edit main.o kbd.o command.o display.o \   # edit 실행 파일과 목적 파일들을 삭제
+           insert.o search.o files.o utils.o         # 삭제할 파일 목록들의 추가 나열
